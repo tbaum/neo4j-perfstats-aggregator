@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <script type="text/javascript" src="jquery-1.5.1.min.js"></script>
+
+    <!--[if IE]>
+    <script type="text/javascript" src="excanvas.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="dygraph-combined.js"></script>
+</head>
+<body>
+
+<select id="graphs" onChange="showGraph(this.value)"></select>
+
+<div id="chart" style="width:400px; height:200px;"></div>
+
+<script type="text/javascript">
+    function showGraph(i) {
+        stychart = new Dygraph(document.getElementById('chart'), "/api/graph/" + i)
+    }
+
+    $.getJSON('/api/graph', function(data) {
+        $('#graphs').empty()
+        $.each(data, function(idx, val) {
+            $('#graphs').append('<option value="' + val + '">' + val + '</option>')
+        });
+        if (data.length > 0) {
+            showGraph(data[0])
+        }
+    });
+</script>
+
+</body>
+</html>
+
